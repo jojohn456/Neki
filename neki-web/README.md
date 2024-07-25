@@ -1,6 +1,6 @@
-# Neki (neki-web)
+# neki-web (neki-web)
 
-An all in one business tool
+all in one business tools
 
 ## Install the dependencies
 ```bash
