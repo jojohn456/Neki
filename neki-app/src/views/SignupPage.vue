@@ -17,7 +17,12 @@
                   d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
                 />
               </svg>
-              <input type="text" class="grow" placeholder="FirstName" />
+              <input
+                v-model="data.firstname"
+                type="text"
+                class="grow"
+                placeholder="FirstName"
+              />
             </label>
             <label class="input input-bordered flex items-center gap-2">
               <svg
@@ -30,7 +35,12 @@
                   d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
                 />
               </svg>
-              <input type="text" class="grow" placeholder="LastName" />
+              <input
+                v-model="data.lastname"
+                type="text"
+                class="grow"
+                placeholder="LastName"
+              />
             </label>
             <label class="input input-bordered flex items-center gap-2">
               <svg
@@ -46,7 +56,12 @@
                   d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"
                 />
               </svg>
-              <input type="text" class="grow" placeholder="Email" />
+              <input
+                v-model="data.email"
+                type="text"
+                class="grow"
+                placeholder="Email"
+              />
             </label>
             <label class="input input-bordered flex items-center gap-2">
               <svg
@@ -74,7 +89,12 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <input type="password" class="grow" placeholder="Password" />
+              <input
+                v-model="data.password1"
+                type="password"
+                class="grow"
+                placeholder="Password"
+              />
             </label>
             <label class="input input-bordered flex items-center gap-2">
               <svg
@@ -90,6 +110,7 @@
                 />
               </svg>
               <input
+                v-model="data.password2"
                 type="password"
                 class="grow"
                 placeholder="Re-Enter Password"
@@ -110,7 +131,38 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
+
 defineOptions({
   name: 'SignupPage',
 });
+
+const data = reactive({
+  firstname: 'asdasd',
+  lastname: '',
+  email: '',
+  username: '',
+  password1: '',
+  password2: '',
+});
+
+const rules = {
+  firstname: [
+    { required: helpers.withMessage('firstname is required', required) },
+  ],
+  lastname: [
+    { required: helpers.withMessage('firstname is required', required) },
+  ],
+};
+const v$ = useVuelidate(rules, data);
+let addBtn = false;
+function submitUserData(): void {
+  v$.value.$validate();
+  if (v$.value.$invalid == true) {
+    return;
+  } else {
+  }
+}
 </script>
