@@ -6,8 +6,8 @@
           <div class="card-body">
             <h2 class="card-title justify-center" align="center">SignUp</h2>
             <Form
-              @submit="submitUserData"
-              :validation-schema="schema"
+              @submit="onSubmit"
+              v-bind:validation-schema="schema"
               v-slot="{ errors }"
             >
               <label class="input input-bordered flex items-center gap-2">
@@ -28,7 +28,6 @@
                   placeholder="FirstName"
                 />
               </label>
-              <span>{{ errors.firstname }}</span>
               <label class="input input-bordered flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -47,6 +46,7 @@
                   placeholder="LastName"
                 />
               </label>
+              <span>{{ errors.email }}</span>
               <label class="input input-bordered flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,11 +61,11 @@
                     d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"
                   />
                 </svg>
-                <input
+                <Field
+                  class="grow"
+                  name="email"
                   v-model="data.email"
                   type="text"
-                  class="grow"
-                  placeholder="Email"
                 />
               </label>
               <label class="input input-bordered flex items-center gap-2">
@@ -121,10 +121,7 @@
                   placeholder="Re-Enter Password"
                 />
               </label>
-              <button
-                class="btn btn-primary w-full"
-                v-on:click="submitUserData"
-              >
+              <button class="btn btn-primary w-full" v-on:click="onSubmit">
                 Sign-Up
               </button>
               <small
@@ -143,32 +140,38 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { defineRule } from 'vee-validate';
+import { Form, Field, useForm } from 'vee-validate';
+import * as yup from 'yup';
 
 defineOptions({
   name: 'SignupPage',
 });
 
-const schema = {
-  email: 'required|email',
-  password: 'required|minLength:8',
-};
-
-defineRule('required', (value: any) => {
-  if (!value || !value.length) {
-    return 'This field is required';
-  }
-  return true;
+const schema = Object({
+  email: yup.string().required().email(),
 });
+
+const { values, errors, defineField, meta } = useForm({
+  validationSchema: yup.object({
+    email: yup.string().email().required(),
+  }),
+});
+
+const [email] = defineField('email');
 
 const data = reactive({
   firstname: '',
   lastname: '',
-  email: '',
+  email: email,
   username: '',
   password1: '',
   password2: '',
+  errors: errors,
+  values: values,
+  meta: meta,
 });
 
-function submitUserData(): void {}
+function onSubmit() {
+  console.log(meta.value.valid);
+}
 </script>
