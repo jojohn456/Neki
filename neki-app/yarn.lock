@@ -558,13 +558,6 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vee-validate/rules@^4.14.7":
-  version "4.14.7"
-  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.14.7.tgz#99c9c11e0964b167b0f52175acb94f903aa64b13"
-  integrity sha512-DK2Frj6s8eQZgjeSRYHOIX3heFX1aic8taKY6q4RPY/5JtEkLDCxyWP3EBt1bteoiSDGDADrmahwqkcfJShhoA==
-  dependencies:
-    vee-validate "4.14.7"
-
 "@vee-validate/yup@^4.14.7":
   version "4.14.7"
   resolved "https://registry.yarnpkg.com/@vee-validate/yup/-/yup-4.14.7.tgz#a029151394ae4fbc7a038dbb49acc86f2ba78ddc"

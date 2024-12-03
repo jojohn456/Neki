@@ -3,3 +3,7 @@
 #link {
   cursor: pointer;
 }
+
+.errors {
+  color: red;
+}

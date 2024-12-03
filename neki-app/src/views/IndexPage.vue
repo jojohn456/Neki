@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <Navbar />
     <div class="row">
       <div class="col-12 flex justify-center items-center">
         <div class="card bg-base-100 max-w-[500px] w-full shadow-xl mt-[10%]">

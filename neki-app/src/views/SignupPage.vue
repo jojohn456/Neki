@@ -10,6 +10,7 @@
               v-bind:validation-schema="schema"
               v-slot="{ errors }"
             >
+              <span class="errors">{{ errors.firstname }}</span>
               <label class="input input-bordered flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -21,14 +22,16 @@
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
                   />
                 </svg>
-                <input
-                  v-model="data.firstname"
-                  type="text"
+                <Field
+                  name="firstname"
                   class="grow"
+                  v-model="data.firstname"
+                  v-bind="firstnameAttrs"
+                  type="text"
                   placeholder="FirstName"
                 />
               </label>
-              <label class="input input-bordered flex items-center gap-2">
+              <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -46,8 +49,8 @@
                   placeholder="LastName"
                 />
               </label>
-              <span>{{ errors.email }}</span>
-              <label class="input input-bordered flex items-center gap-2">
+              <span class="errors">{{ errors.email }}</span>
+              <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -62,13 +65,15 @@
                   />
                 </svg>
                 <Field
-                  class="grow"
                   name="email"
+                  class="grow"
                   v-model="data.email"
+                  v-bind="emailAttrs"
                   type="text"
+                  placeholder="Email"
                 />
               </label>
-              <label class="input input-bordered flex items-center gap-2">
+              <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -81,7 +86,7 @@
                 </svg>
                 <input type="text" class="grow" placeholder="Username" />
               </label>
-              <label class="input input-bordered flex items-center gap-2">
+              <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -101,7 +106,7 @@
                   placeholder="Password"
                 />
               </label>
-              <label class="input input-bordered flex items-center gap-2">
+              <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -121,9 +126,7 @@
                   placeholder="Re-Enter Password"
                 />
               </label>
-              <button class="btn btn-primary w-full" v-on:click="onSubmit">
-                Sign-Up
-              </button>
+              <button class="btn btn-primary w-full">Sign-Up</button>
               <small
                 class="flex justify-center"
                 id="link"
@@ -139,36 +142,36 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Form, Field, useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { Users } from '../models/Users';
 
 defineOptions({
   name: 'SignupPage',
 });
 
 const schema = Object({
-  email: yup.string().required().email(),
+  firstname: yup.string().required(),
+  email: yup.string().required().email('asdasd'),
 });
 
-const { values, errors, defineField, meta } = useForm({
-  validationSchema: yup.object({
-    email: yup.string().email().required(),
-  }),
-});
+const { values, errors, defineField, meta } = useForm<Users>();
 
-const [email] = defineField('email');
+ref(errors);
+ref(meta);
+ref(values);
+
+const [firstname, firstnameAttrs] = defineField('firstname');
+const [email, emailAttrs] = defineField('email');
 
 const data = reactive({
-  firstname: '',
+  firstname: firstname,
   lastname: '',
   email: email,
   username: '',
   password1: '',
   password2: '',
-  errors: errors,
-  values: values,
-  meta: meta,
 });
 
 function onSubmit() {

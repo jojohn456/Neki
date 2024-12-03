@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
-    "@vee-validate/rules": "^4.14.7",
     "@vee-validate/yup": "^4.14.7",
     "quasar": "^2.16.0",
     "vee-validate": "^4.14.7",
