@@ -31,6 +31,7 @@
                   placeholder="FirstName"
                 />
               </label>
+              <span class="errors">{{ errors.lastname }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -42,10 +43,12 @@
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
                   />
                 </svg>
-                <input
-                  v-model="data.lastname"
-                  type="text"
+                <Field
+                  name="lastname"
                   class="grow"
+                  v-model="data.lastname"
+                  v-bind="lastnameAttrs"
+                  type="text"
                   placeholder="LastName"
                 />
               </label>
@@ -73,6 +76,7 @@
                   placeholder="Email"
                 />
               </label>
+              <span class="errors">{{ errors.username }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +88,16 @@
                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
                   />
                 </svg>
-                <input type="text" class="grow" placeholder="Username" />
+                <Field
+                  name="username"
+                  class="grow"
+                  v-model="data.username"
+                  v-bind="usernameAttrs"
+                  type="password"
+                  placeholder="Username"
+                />
               </label>
+              <span class="errors">{{ errors.password1 }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,13 +111,16 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                <input
-                  v-model="data.password1"
-                  type="password"
+                <Field
+                  name="password1"
                   class="grow"
+                  v-model="data.password1"
+                  v-bind="password1Attrs"
+                  type="password"
                   placeholder="Password"
                 />
               </label>
+              <span class="errors">{{ errors.password2 }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,11 +134,13 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                <input
-                  v-model="data.password2"
-                  type="password"
+                <Field
+                  name="password2"
                   class="grow"
-                  placeholder="Re-Enter Password"
+                  v-model="data.password2"
+                  v-bind="password2Attrs"
+                  type="password"
+                  placeholder="Password"
                 />
               </label>
               <button class="btn btn-primary w-full">Sign-Up</button>
@@ -153,7 +170,9 @@ defineOptions({
 
 const schema = Object({
   firstname: yup.string().required(),
+  lastname: yup.string().required(),
   email: yup.string().required().email('asdasd'),
+  username: yup.string().required(),
 });
 
 const { values, errors, defineField, meta } = useForm<Users>();
@@ -163,15 +182,19 @@ ref(meta);
 ref(values);
 
 const [firstname, firstnameAttrs] = defineField('firstname');
+const [lastname, lastnameAttrs] = defineField('lastname');
 const [email, emailAttrs] = defineField('email');
+const [username, usernameAttrs] = defineField('username');
+const [password1, password1Attrs] = defineField('password1');
+const [password2, password2Attrs] = defineField('password2');
 
 const data = reactive({
   firstname: firstname,
-  lastname: '',
+  lastname: lastname,
   email: email,
-  username: '',
-  password1: '',
-  password2: '',
+  username: username,
+  password1: password1,
+  password2: password2,
 });
 
 function onSubmit() {
