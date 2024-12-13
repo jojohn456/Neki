@@ -93,11 +93,11 @@
                   class="grow"
                   v-model="data.username"
                   v-bind="usernameAttrs"
-                  type="password"
+                  type="text"
                   placeholder="Username"
                 />
               </label>
-              <span class="errors">{{ errors.password1 }}</span>
+              <span class="errors">{{ errors.password }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -112,15 +112,15 @@
                   />
                 </svg>
                 <Field
-                  name="password1"
+                  name="password"
                   class="grow"
-                  v-model="data.password1"
-                  v-bind="password1Attrs"
+                  v-model="data.password"
+                  v-bind="passwordAttrs"
                   type="password"
                   placeholder="Password"
                 />
               </label>
-              <span class="errors">{{ errors.password2 }}</span>
+              <span class="errors">{{ errors.confirmPassword }}</span>
               <label class="input input-bordered flex items-center gap-2 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -135,10 +135,10 @@
                   />
                 </svg>
                 <Field
-                  name="password2"
+                  name="confirmPassword"
                   class="grow"
-                  v-model="data.password2"
-                  v-bind="password2Attrs"
+                  v-model="data.confirmPassword"
+                  v-bind="confirmPasswordAttrs"
                   type="password"
                   placeholder="Password"
                 />
@@ -161,18 +161,11 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { Form, Field, useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { ref as yupRef, object, string } from 'yup';
 import { Users } from '../models/Users';
 
 defineOptions({
   name: 'SignupPage',
-});
-
-const schema = Object({
-  firstname: yup.string().required(),
-  lastname: yup.string().required(),
-  email: yup.string().required().email('asdasd'),
-  username: yup.string().required(),
 });
 
 const { values, errors, defineField, meta } = useForm<Users>();
@@ -185,16 +178,36 @@ const [firstname, firstnameAttrs] = defineField('firstname');
 const [lastname, lastnameAttrs] = defineField('lastname');
 const [email, emailAttrs] = defineField('email');
 const [username, usernameAttrs] = defineField('username');
-const [password1, password1Attrs] = defineField('password1');
-const [password2, password2Attrs] = defineField('password2');
+const [password, passwordAttrs] = defineField('password');
+const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword');
 
 const data = reactive({
   firstname: firstname,
   lastname: lastname,
   email: email,
   username: username,
-  password1: password1,
-  password2: password2,
+  password: password,
+  confirmPassword: confirmPassword,
+});
+
+const schema = object({
+  firstname: string().required(),
+  lastname: string().required(),
+  email: string().required().email(),
+  username: string().required(),
+  password: string()
+    .required()
+    .min(8, 'Must be 8 characters or more')
+    .matches(/[a-z]+/, 'One lowercase character')
+    .matches(/[A-Z]+/, 'One uppercase character')
+    .matches(/[@$!%*#?&]+/, 'One special character'),
+  confirmPassword: string()
+    .required()
+    .min(8, 'Must be 8 characters or more')
+    .matches(/[a-z]+/, 'One lowercase character')
+    .matches(/[A-Z]+/, 'One uppercase character')
+    .matches(/[@$!%*#?&]+/, 'One special character')
+    .oneOf([yupRef('password')], 'Passwords does not match'),
 });
 
 function onSubmit() {
