@@ -143,7 +143,7 @@
                   placeholder="Password"
                 />
               </label>
-              <button class="btn btn-primary w-full">Sign-Up</button>
+              <button class="btn btn-primary w-full pt-1">Sign-Up</button>
               <small
                 class="flex justify-center"
                 id="link"
