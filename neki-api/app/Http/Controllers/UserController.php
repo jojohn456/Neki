@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    function registerUser(): void
+    function registerUser(Request $request): void
     {
-        $my_string = (string) 'hello world';
+        $firstname = htmlspecialchars($request->input('firstname'));
     }
 }
