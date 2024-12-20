@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('email');
             $table->string('username');
             $table->string('password');
-            $table->string('mobile_token');
-            $table->string('remtoken');
-            $table->dateTime('remtoken_created_at', precision: 0);
+            $table->string('refresh_token');
             $table->string('mfa_token');
             $table->dateTime('mfa_token_created_at', precision: 0);
+            $table->string('remember_token');
+            $table->dateTime('remember_token_created_at', precision: 0);
         });
     }
 

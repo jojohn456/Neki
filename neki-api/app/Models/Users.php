@@ -20,6 +20,9 @@ class Users extends Model
         'username',
         'email',
         'password',
+        'mobile_token',
+        'mfa_token',
+        'mfa_token_created_at',
         'remember_token',
         'remember_token_created_at',
     ];

@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('CREATE TABLE sessions (user_id BIGINT, username VARCHAR(255), role_id INT, token VARCHAR(255), created_at DATETIME) ENGINE = MEMORY;');
+        DB::statement('CREATE TABLE sessions (user_id BIGINT, role_id INT, username VARCHAR(255), token VARCHAR(255), created_at DATETIME) ENGINE = MEMORY;');
     }
 
     /**
